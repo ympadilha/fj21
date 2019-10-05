@@ -1,7 +1,6 @@
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContatoDAO {
 
@@ -27,6 +26,29 @@ public class ContatoDAO {
         } catch(SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Contato> todosContatos() throws SQLException {
+        List<Contato> contatos = new ArrayList<>();
+        String sql = "select * from contatos";
+
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Contato contato = new Contato(rs.getLong("id"),
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("endereco"),
+                    rs.getDate("dataNascimento"));
+
+            contatos.add(contato);
+        }
+
+        rs.close();
+        stmt.close();
+
+        return contatos;
     }
 
 }
