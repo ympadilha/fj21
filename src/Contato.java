@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Contato {
@@ -48,6 +49,11 @@ public class Contato {
         return dataNascimento;
     }
 
+    private String getFormatedDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return simpleDateFormat.format(this.dataNascimento.getTime());
+    }
+
     @Override
     public String toString() {
         return "Contato{" +
@@ -55,7 +61,7 @@ public class Contato {
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
                 ", endereco='" + endereco + '\'' +
-                ", dataNascimento=" + dataNascimento.getTime() +
+                ", dataNascimento=" + getFormatedDate() +
                 '}';
     }
 }

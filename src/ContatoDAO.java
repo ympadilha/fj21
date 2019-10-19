@@ -1,3 +1,5 @@
+import exception.DAOException;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,8 @@ public class ContatoDAO {
 
             stmt.execute();
             stmt.close();
-        } catch(SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new DAOException(e);
         }
     }
 
@@ -49,6 +51,29 @@ public class ContatoDAO {
         stmt.close();
 
         return contatos;
+    }
+
+    public Contato pesquisar(Long id) {
+        String sql = "select * from contatos where id = ?";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+
+            Contato contato = new Contato(
+                    rs.getLong("id"),
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("endereco"),
+                    rs.getDate("dataNascimento"));
+
+            return contato;
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
     }
 
 }

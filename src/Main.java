@@ -19,6 +19,10 @@ public class Main {
         // Java 8 abaixo
 //        contatos.forEach(contato -> System.out.println(contato));
         contatos.forEach(System.out::println);
+
+        System.out.println("Pegando o contato de id [" + 1 + "]");
+        Contato contato1 = dao.pesquisar(1L);
+        System.out.println(contato1);
     }
 
 }
